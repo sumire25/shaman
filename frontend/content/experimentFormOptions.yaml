@@ -1,0 +1,290 @@
+form_options:
+  kill_too_long:
+    section: pruning_strategy
+    type: checkbox
+    label: 'Stop unpromising trials ?'
+    description: 'If checked, trial runs that take longer than a certain threshold will be aborted.'
+    derived_options:
+      max_step_duration:
+        varname: 'max_step_duration'
+        label: 'Pruning strategy'
+        type: 'radio'
+        options:
+          default:
+            varname: default
+            label: 'Default parametrization'
+            description: 'Stop any step that take longer than the execution time of the default run.'
+          median:
+            varname: numpy.median
+            label: 'Current median'
+            description: 'Stop any step that take longer than the median currently measured on the execution time sample.'
+
+  noise_reduction:
+    section: noise_reduction
+    type: checkbox
+    label: 'Use noise reduction ?'
+    description: 'If checked, parametrizations are resampled to ensure a better estimation of the performance measure at this location. '
+    derived_options:
+      fitness_aggregation:
+        type: 'radio'
+        varname: 'fitness_aggregation'
+        label: 'Fitness aggregation'
+        description: 'Transformation to apply to the data before selecting the next parametrization to evaluate.'
+        options:
+          simple_fitness_aggregation:
+            varname: simple_fitness_aggregation
+            label: 'Simple fitness aggregation'
+            description: 'Transforms the data using one of the estimator below:'
+            options:
+              estimator:
+                label: 'Estimator'
+                type: radio
+                varname: estimator
+                options:
+                  mean:
+                    varname: numpy.mean
+                    label: 'Mean'
+                  median:
+                    varname: numpy.median
+                    label: 'Median'
+
+      resampling_policy:
+        label: 'Resampling policy'
+        type: 'radio'
+        varname: 'resampling_policy'
+        description: 'Rule to apply to determine if a parametrization should be resampled.'
+        options:
+          static_resampling:
+            type: 'static'
+            label: 'Static resampling'
+            varname: simple_resampling
+            description: 'Repeat each parametrization a fixed number of times.'
+            options:
+              nbr_resamples:
+                label: 'Number of repetitions'
+                type: number
+                options:
+                  nbr_resamples:
+                    varname: nbr_resamples
+                    min: 0
+                    max: 100
+                    step: 1
+          dynamic_resampling:
+            type: 'radio'
+            varname: 'dynamic_resampling'
+            label: 'Dynamic resampling'
+            description: 'Repeat parametrizations until the width of their 95% confidence interval goes below a certain threshold.'
+            options:
+              percentage:
+                label: 'Percentage'
+                type: number
+                options:
+                  percentage:
+                    varname: percentage
+                    min: 0
+                    max: 10
+                    step: 1
+
+  stop_criterion:
+    section: bbo
+    type: checkbox
+    label: 'Use a stop criterion ?'
+    description: 'If checked, the optimization process can be stopped before all the iterations have been performed, using a stop criterion. '
+    derived_options:
+      stop_criterion:
+        varname: 'stop_criterion'
+        type: 'radio'
+        options:
+          improvement_based:
+            varname: improvement_criterion
+            label: 'Improvement criterion'
+            description: 'Stop the optimization process when there is no improvement of p% over n iterations.'
+            options:
+              stop_window:
+                label: 'Range of iterations'
+                type: number
+                options:
+                  stop_window:
+                    varname: stop_window
+                    min: 5
+                    max: 200
+                    step: 1
+              improvement:
+                label: Ratio of improvement betweeen n iterations
+                type: number
+                options:
+                  improvement_threshold:
+                    varname: improvement_threshold
+                    min: 0
+                    max: 1
+                    step: 0.1
+              estimator:
+                label: 'Estimator to use for computing the improvement.'
+                varname: improvement_estimator
+                type: radio
+                options:
+                  mean:
+                    varname: numpy.mean
+                    label: 'Mean'
+                  median:
+                    varname: numpy.median
+                    label: 'Median'
+                  min:
+                    varname: numpy.min
+                    label: 'Min'
+
+          count_based:
+            varname: count_movement
+            label: 'Parametrization count criterion'
+            description: 'Stop the optimization process is the number of different parametrization is below a set threshold'
+            options:
+              stop_window:
+                label: 'Range of iterations'
+                type: number
+                options:
+                  stop_window:
+                    varname: stop_window
+                    min: 5
+                    max: 200
+                    step: 1
+              nbr_parametrizations:
+                label: Number of distinct parametrization
+                type: number
+                options:
+                  nbr_parametrizations:
+                    varname: nbr_parametrizations
+                    min: 0
+                    max: 100
+                    step: 1
+
+  initial_sample_size:
+    section: bbo
+    varname: initial_sample_size
+    vmodel: false
+    type: number
+    label: 'initialization steps'
+    description: 'The number of steps dedicated to initialization, that is exploring the parametric space using a Latin Hypercube Design.'
+
+  heuristic:
+    section: bbo
+    type: static
+    vmodel: true
+    label: 'Select heuristic'
+    derived_options:
+      heuristic:
+        varname: heuristic
+        type: radio
+        vmodel: true
+        options:
+          genetic_algorithm:
+            varname: genetic_algorithm
+            label: 'Genetic algorithm'
+            description: 'Genetic algorithms consist in selecting a subset of parameters, among the already tested parametrizations, according to a selection mechanism that considers the objective value of each parametrization, and combining these parametrization to create new ones.'
+            vmodel: false
+            options:
+              selection_method:
+                label: 'Selection method'
+                type: radio
+                options:
+                  tournament_pick:
+                    varname: bbo.heuristics.genetic_algorithm.selections.tournament_pick
+                    label: 'Tournament pick'
+                  probabilistic_pick:
+                    varname: bbo.heuristics.genetic_algorithm.selections.probabilistic_pick
+                    label: 'Probabilistic pick'
+              crossover_method:
+                label: 'Combination method'
+                type: radio
+                options:
+                  one_point_crossover:
+                    varname: bbo.heuristics.genetic_algorithm.crossover.single_point_crossover
+                    label: 'One point crossover'
+                  two_point_crossover:
+                    varname: bbo.heuristics.genetic_algorithm.crossover.double_point_crossover
+                    label: 'Two point crossovers'
+              mutation_method:
+                label: 'Mutation method'
+                type: radio
+                options:
+                  mutate_neighbor:
+                    varname: bbo.heuristics.genetic_algorithm.mutations.mutate_chromosome_to_neighbor
+                    label: 'Mutate into neighbor'
+              mutation_rate:
+                label: 'Mutation rate'
+                type: number
+                options:
+                  mutation_rate:
+                    varname: mutation_rate
+                    min: 0
+                    max: 1
+                    step: 0.1
+
+          surrogate_models:
+            varname: 'surrogate_model'
+            label: 'Surrogate model'
+            vmodel: false
+            description: Surrogate modeling consists in using a regression or interpolation technique over the currently known surface to build a computationally cheap approximation of the black-box function and to then select the most promising data point in terms of performance on this surrogate function by using an acquisition function.
+            options:
+              regression_model:
+                label: 'Regression model'
+                type: radio
+                options:
+                  regression_model:
+                    varname: sklearn.gaussian_process.GaussianProcessRegressor # fill up using sklearn
+                    label: 'Gaussian Process regression'
+              next_parameter_strategy:
+                label: 'Next parameter strategy'
+                type: radio
+                options:
+                  expected_improvement:
+                    label: 'Expected improvement'
+                    varname: 'bbo.heuristics.surrogate_models.next_parameter_strategies.expected_improvement'
+                  maximum_probability_improvement:
+                    label: 'Maximum probability improvement'
+                    varname: 'bbo.heuristics.surrogate_models.next_parameter_strategies.maximum_probability_improvement'
+
+          simulated_annealing:
+            varname: 'simulated_annealing'
+            label: 'Simulated annealing'
+            description: 'The simulated annealing heuristic is a hill-climbing algorithm which can probabilistically accept a solution worse than the current one.'
+            vmodel: false
+            options:
+              cooldown_function:
+                label: 'Cooling schedule'
+                type: 'radio'
+                options:
+                  logarithmic:
+                    label: 'Logarithmic'
+                    varname: bbo.heuristics.simulated_annealing.cooldown_functions.logarithmic_schedule
+                  exponential:
+                    label: 'Exponential'
+                    varname: bbo.heuristics.simulated_annealing.cooldown_functions.exponential_schedule
+                  multiplicative:
+                    label: 'Multiplicative'
+                    varname: bbo.heuristics.simulated_annealing.cooldown_functions.multiplicative_schedule
+              restart:
+                label: 'Restart strategy'
+                type: 'radio'
+                options:
+                  threshold:
+                    label: 'Threshold'
+                    varname: bbo.heuristics.simulated_annealing.restart_functions.threshold_restart
+                  random:
+                    label: 'Random'
+                    varname: bbo.heuristics.simulated_annealing.restart_functions.random_restart
+              neighbor_function:
+                label: 'Neighbor functions'
+                type: 'radio'
+                options:
+                  hop_to_next_value:
+                    label: 'Move to neighbor'
+                    varname: bbo.heuristics.simulated_annealing.neighbor_functions.hop_to_next_value
+              temperature:
+                label: 'Initial temperature'
+                type: number
+                options:
+                  initial_temperature:
+                    varname: initial_temperature
+                    min: 0
+                    max: 1000
+                    step: 1

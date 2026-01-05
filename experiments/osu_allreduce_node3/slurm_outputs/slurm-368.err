@@ -1,0 +1,6 @@
+srun: error: node3: task 0: Killed
+srun: got SIGCONT
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-node3: error: *** JOB 368 ON node3 CANCELLED AT 2026-01-05T08:44:06 ***
+slurmstepd-node3: error: *** STEP 368.0 ON node3 CANCELLED AT 2026-01-05T08:44:06 ***
+srun: forcing job termination

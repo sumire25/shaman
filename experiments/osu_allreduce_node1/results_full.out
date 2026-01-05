@@ -1,0 +1,18 @@
+Optimal time: 887033.51
+Improvement compared to default:2.0%
+Optimal parametrization: [{'OMPI_MCA_coll_yhccl_imax': array([65536, 393216, 524288], dtype=object)}]
+Number of early stops:0
+Average noise within each parametrization:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------ Optimization loop summary ------
+Number of iterations: 28
+Elapsed time: 3902.13072347641
+Best parameters: [65536 393216 524288]
+Best fitness value: 887033.51
+Percentage of explored space:7.000000000000001
+Percentage of static moves:0.0
+Cost of global exploration:4433687.900000001
+Mean fitness gain per iteration:                 37125.777407407404
+Number of iterations until best fitness:                 23
+Average variation within each parametrization:                 [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+--- Heuristic specific summary ---
+None

@@ -1,0 +1,13 @@
+# Copyright 2020 BULL SAS All rights reserved
+# Image for compute node
+FROM sphrbthyk/shaman-slurm-base:latest
+
+# Setup proper configuration for slurm
+RUN  touch /var/log/slurmd.log &&\
+    chown slurm: /var/log/slurmd.log
+
+# Copy and give proper execution rights to script launching munge and slurmctld
+COPY docker/scripts/start_compute.sh /start_compute
+RUN chmod +x /start_compute
+
+ENTRYPOINT ["tini", "--", "/start_compute"]

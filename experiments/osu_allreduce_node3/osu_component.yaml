@@ -1,0 +1,17 @@
+# Component configuration for YHCCL OSU allreduce benchmark - Node3
+components:
+  yhccl_allreduce_node3:
+    custom_target: parse_osu_output.parse_osu_output_latency_sum
+    parameters:
+      OMPI_MCA_coll_yhccl_imax:
+        env_var: True
+        type: int
+        default: 262144
+      OMPI_MCA_coll_yhccl_cache_size:
+        env_var: True
+        type: int
+        default: 12582912
+      OMPI_MCA_coll_yhccl_switch_threshold:
+        env_var: True
+        type: int
+        default: 131072

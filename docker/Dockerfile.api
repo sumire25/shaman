@@ -1,0 +1,21 @@
+#TODO: multistage docker
+# Dockerfile containing the FastAPI library
+# Copyright 2020 BULL SAS All rights reserved
+
+FROM python:3.8-slim
+
+# Install poetry
+RUN python3 -m pip install poetry
+
+WORKDIR /shaman_project
+
+# Copy project toml and tasks file
+COPY pyproject.toml .
+COPY poetry.lock .
+# COPY tasks.py .
+COPY shaman_project /shaman_project/shaman_project
+
+ENV PATH="/root/.local/bin/:$PATH"
+# Install required dependencies
+RUN poetry config virtualenvs.create false && \
+    poetry install -E shaman-api -E shaman-core

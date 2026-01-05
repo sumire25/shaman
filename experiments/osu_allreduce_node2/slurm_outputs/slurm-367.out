@@ -1,0 +1,14 @@
+
+# OSU MPI Allreduce Latency Test v7.5
+# Datatype: MPI_INT.
+# Size       Avg Latency(us)
+ yhccl_contexts::init
+65536                  90.72
+131072                 61.04
+262144                121.29
+524288                683.19
+1048576              2535.73
+2097152              5786.72
+4194304             12052.87
+8388608             24669.91
+16777216            49631.10

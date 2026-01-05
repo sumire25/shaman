@@ -1,0 +1,33 @@
+# Experiment configuration for OSU allreduce YHCCL optimization - Node3
+experiment:
+  default_first: true
+
+bbo:
+  heuristic: surrogate_model
+  regression_model: sklearn.gaussian_process.GaussianProcessRegressor
+  next_parameter_strategy: bbo.heuristics.surrogate_models.next_parameter_strategies.expected_improvement
+  initial_sample_size: 5
+  max_retry: 3
+  reevaluate: false
+  stop_criterion: improvement_criterion
+  stop_window: 15
+  improvement_estimator: numpy.min
+  improvement_threshold: 0.01
+
+components:
+  yhccl_allreduce_node3:
+    # Full parameter ranges for Node3 (8 tasks)
+    OMPI_MCA_coll_yhccl_imax:
+      min: 512
+      max: 262144
+      step: 2
+      step_type: multiplicative
+    OMPI_MCA_coll_yhccl_cache_size:
+      min: 1572864
+      max: 12582912
+      step: 1572864
+    OMPI_MCA_coll_yhccl_switch_threshold:
+      min: 65536
+      max: 1048576
+      step: 2
+      step_type: multiplicative

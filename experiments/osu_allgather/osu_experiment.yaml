@@ -1,0 +1,29 @@
+# Experiment configuration for OSU allgather optimization
+experiment:
+  default_first: true
+
+bbo:
+  heuristic: surrogate_model
+  regression_model: sklearn.gaussian_process.GaussianProcessRegressor
+  next_parameter_strategy: bbo.heuristics.surrogate_models.next_parameter_strategies.expected_improvement
+  initial_sample_size: 10
+  max_retry: 3
+  reevaluate: false
+  stop_criterion: improvement_criterion
+  stop_window: 15
+  improvement_estimator: numpy.min
+  improvement_threshold: 0.01
+
+components:
+  openmpi_allgather:
+    # Allgather algorithm: 0=ignore, 1=linear, 2=bruck, 3=recursive_doubling, 4=ring, 5=neighbor
+    # Note: algorithm 6 (two_proc) excluded - requires exactly 2 processes
+    OMPI_MCA_coll_tuned_allgather_algorithm:
+      min: 0
+      max: 5
+      step: 1
+    # Allgatherv algorithm: 0=ignore, 1=default, 2=bruck, 3=ring, 4=neighbor, 5=two_proc
+    OMPI_MCA_coll_tuned_allgatherv_algorithm:
+      min: 0
+      max: 4
+      step: 1

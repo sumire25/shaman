@@ -1,0 +1,21 @@
+# Copyright 2020 BULL SAS All rights reserved
+# Image for slurm controller
+FROM sphrbthyk/shaman-slurm-base
+
+
+# Configure the compute nodes to be accessed without ssh
+RUN mkdir -p /compute && \
+    chown -R compute:compute /compute
+
+COPY docker/scripts/setup_ssh.sh /compute/setup-compute-ssh.sh
+RUN chmod +x /compute/setup-compute-ssh.sh &&\
+    bash /compute/setup-compute-ssh.sh
+
+# Generate munge key
+RUN /sbin/create-munge-key -f
+
+# Copy and give proper execution rights to script launching munge and slurmctld
+COPY docker/scripts/start_controller.sh /start_controller
+RUN chmod +x /start_controller
+
+ENTRYPOINT ["tini", "--", "/start_controller"]

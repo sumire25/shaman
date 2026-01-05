@@ -1,0 +1,18 @@
+Optimal time: 0.375
+Improvement compared to default:66.0%
+Optimal parametrization: [{'OMPI_MCA_coll_tuned_allgather_algorithm': array([0, 2], dtype=object)}]
+Number of early stops:0
+Average noise within each parametrization:[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------ Optimization loop summary ------
+Number of iterations: 20
+Elapsed time: 108.10408234596252
+Best parameters: [0 2]
+Best fitness value: 0.375
+Percentage of explored space:66.66666666666666
+Percentage of static moves:0.0
+Cost of global exploration:3.623
+Mean fitness gain per iteration:                 -0.011263157894736841
+Number of iterations until best fitness:                 12
+Average variation within each parametrization:                 [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+--- Heuristic specific summary ---
+None

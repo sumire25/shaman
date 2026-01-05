@@ -1,0 +1,13 @@
+# Component configuration for OpenMPI OSU allgather benchmark
+components:
+  openmpi_allgather:
+    custom_target: parse_osu_output.parse_osu_output_1048576
+    parameters:
+      OMPI_MCA_coll_tuned_allgather_algorithm:
+        env_var: True
+        type: int
+        default: 0
+      OMPI_MCA_coll_tuned_allgatherv_algorithm:
+        env_var: True
+        type: int
+        default: 0
